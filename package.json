@@ -4,7 +4,7 @@
   "description": "Text-based RPG game engine influenced by FATE system",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --recursive",
     "docs:api": "jsdoc2md --configure tooling/docs/jsdoc.json --files src/**/*.js > docs/api.md",
     "docs:prepare": "gitbook install",
     "docs:build": "npm run docs:prepare && npm run docs:api && gitbook build",
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/nergal-perm/fate-text-rpg#readme",
   "devDependencies": {
+    "chai": "^4.1.2",
     "gitbook-cli": "^2.3.2",
     "jsdoc-to-markdown": "^4.0.1"
   }
