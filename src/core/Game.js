@@ -4,7 +4,7 @@ const EventEmitter = require('events');
 
 
 class Game extends EventEmitter {
-    constructor(plugins) {
+    constructor(plugins, actionEmitter) {
         super();
         this.gameState = {
             isOver: false,
@@ -19,6 +19,7 @@ class Game extends EventEmitter {
         for (let index = 0, len = plugins.length; index < len; index++) {
             this.addPlugin(plugins[index]);
         }
+        actionEmitter.on("move", this.move.bind(this));
     }
 
     addPlugin(plugin) {
@@ -39,8 +40,11 @@ class Game extends EventEmitter {
         }
     }
 
-    handleAction(user, param2) {
-
+    move(movementAction) {
+        this.worldState.location = {
+            id: movementAction.newLocation
+        };
+        this.updateDescription();
     }
 }
 

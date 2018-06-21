@@ -1,6 +1,6 @@
 "use strict";
 const LocationPlugin = require('../plugins/LocationsPlugin');
-const LocationLoader = require('./JsonLocationLoader');
+const LocationLoader = require('../core/JsonLocationLoader');
 
 const chai = require('chai');
 chai.should();
