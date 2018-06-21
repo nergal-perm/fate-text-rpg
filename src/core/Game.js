@@ -1,35 +1,29 @@
 "use strict";
 
-class Game {
-    constructor() {
+const EventEmitter = require('events');
+
+
+class Game extends EventEmitter {
+    constructor(plugins) {
+        super();
         this.gameState = {
             isOver: false,
             stepCounter: 0
         };
         this.worldState = {
-            currentLocationId: 1
+            location: {
+                id: 1
+            }
         };
         this.plugins = {};
+        for (let index = 0, len = plugins.length; index < len; index++) {
+            this.addPlugin(plugins[index]);
+        }
     }
 
     addPlugin(plugin) {
         if (!this.plugins[plugin.type]) {
             this.plugins[plugin.type] = plugin;
-        }
-    }
-
-    run() {
-        while (!this.gameState.isOver) {
-            let stateChange = {};
-            // Update user visible description based on worldState
-            this.updateDescription();
-            // Ask user for action and handle it
-            stateChange = this.handleAction('user', {type: "move", direction: "S"});
-            // Change worldState accordingly (and check for end game conditions?)
-            // Choose AI action and handle it
-            // Change worldState accordingly (and check for end game conditions?)
-            this.changeWorldState();
-
         }
     }
 

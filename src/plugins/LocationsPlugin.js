@@ -12,7 +12,7 @@ class LocationsPlugin {
     }
 
     update(worldState) {
-
+        worldState.location = this.getLocation(worldState.location.id);
     }
 }
 
