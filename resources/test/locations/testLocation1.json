@@ -1,0 +1,11 @@
+{
+  "id": "01",
+  "description": "Весь день вы потратили на бесплодные поиски. Вечером пришли на базар.",
+  "actions": [{"id":"action01-01"}, {"id":"action01-02"}],
+  "aspects": [{
+    "id":"aspect01-01",
+    "visibility":"(visible|hidden|gone)",
+    "description": "to be added to location description"
+  }],
+  "npcs":[]
+}

@@ -1,22 +1,14 @@
 "use strict";
 
 class LocationsPlugin {
-    constructor() {
+
+    constructor(locationLoader) {
         this.type = "location";
-        this.locations = this.getLocations();
+        this.locationLoader = locationLoader;
     }
 
-    static getLocations() {
-        return {
-            1: {
-                description: "Весь день вы потратили на бесплодные поиски. Вечером пришли на базар",
-                possibleMoves: [{
-                    toLocation: 2,
-                    action: "move",
-                    description: "Подойти к кабаку"
-                }]
-            }
-        };
+    getLocation(currentLocationId) {
+        return this.locationLoader.getLocation(currentLocationId);
     }
 
     update(worldState) {
