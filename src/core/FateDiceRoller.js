@@ -1,9 +1,14 @@
+// @flow
+
 "use strict";
 
 /**
  * Class responsibility is to represent FATE dice rolls
  */
 class FateDiceRoller {
+    outcomes: Array<number>;
+    diceQty: number;
+
     constructor() {
         // possible outcomes aka dice sides
         this.outcomes = [-1, 0, 1];
