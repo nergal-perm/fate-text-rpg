@@ -22,6 +22,6 @@ describe("Locations Plugin & Loader", function() {
 
     it('should present accessible actions', function() {
         let location = this.locationPlugin.getLocation("testLocation1");
-        location.actions.length.should.equal(2);
+        location.actions.length.should.equal(1);
     });
 });
