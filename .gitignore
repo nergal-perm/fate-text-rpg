@@ -66,3 +66,6 @@ typings/
 
 # Generated docs
 _book/
+
+# Build folder
+build/

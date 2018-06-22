@@ -1,17 +1,20 @@
 "use strict";
 
 class LocationsPlugin {
+    type: string;
+    locationLoader: Object;
 
-    constructor(locationLoader) {
+
+    constructor(locationLoader: Object) {
         this.type = "location";
         this.locationLoader = locationLoader;
     }
 
-    getLocation(currentLocationId) {
+    getLocation(currentLocationId: string) {
         return this.locationLoader.getLocation(currentLocationId);
     }
 
-    update(worldState) {
+    update(worldState: Object) {
         worldState.location = this.getLocation(worldState.location.id);
     }
 }

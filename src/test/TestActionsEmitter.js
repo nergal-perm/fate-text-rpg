@@ -4,7 +4,7 @@ const EventEmitter = require("events");
 
 class TestActionsEmitter extends EventEmitter {
     moveTo(locationId) {
-        this.emit('move', {newLocation: locationId});
+        this.emit('move', locationId);
     }
 }
 

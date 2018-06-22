@@ -1,5 +1,7 @@
+// @flow
 "use strict";
 
+import type UserAction from '../core/flow-types';
 const EventEmitter = require('events');
 
 class ActionsPlugin extends EventEmitter {
@@ -7,7 +9,7 @@ class ActionsPlugin extends EventEmitter {
         super();
     }
 
-    handle(action) {
+    handle(action: UserAction) {
         switch(action.type) {
             case 'move':
                 this.emit('move', action.destination);

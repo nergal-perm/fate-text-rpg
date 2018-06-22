@@ -1,6 +1,13 @@
 "use strict";
 
 class CharacterCreator {
+    name: string;
+    highConcept: Object;
+    trouble: Object;
+    aspects: Array<Object>;
+    approaches: Object;
+    stunts: Array<Object>;
+
     constructor() {
         this.name = "Reth of the Andrali";
         this.highConcept = {
