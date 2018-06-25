@@ -4,15 +4,13 @@ import org.assertj.core.api.Assertions.*
 
 import org.junit.jupiter.api.Test
 import ru.terekhov.fate.core.locations.Location
-import ru.terekhov.fate.core.locations.LocationLoader
+import ru.terekhov.fate.core.locations.LocationEntityGateway
 
 class GameTest {
     @Test
-    fun `should load current location`() {
+    fun `should handle user movement`() {
         // Given
-        val game = Game()
-        game.locationLoader = StubLocationLoader()
-
+        val game = Game(StubLocationEntityGateway())
 
         game.loadLocation(1)
 
@@ -24,12 +22,13 @@ class GameTest {
         assertThat(game.currentLocation).isEqualTo(expectedLocation)
     }
 
-    class StubLocationLoader: LocationLoader {
-        var locations = mapOf<Int, Location>(
+    class StubLocationEntityGateway: LocationEntityGateway {
+        var locations = mapOf(
                 1 to Location(1, "Вы пришли на базар"),
                 5 to Location(5, "Всем привет"))
-        override fun loadLocation(locationId: Int): Location? {
-            return locations[locationId]
+        override fun loadLocation(locationId: Int): Location {
+            val loc= locations[locationId]
+            return loc ?: Location(-1, "Несуществующая локация")
         }
 
     }
