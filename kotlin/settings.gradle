@@ -1,2 +1,4 @@
-rootProject.name = 'textrpg'
+rootProject.name = 'fate-rpg'
 
+include 'core'
+include 'cli'
