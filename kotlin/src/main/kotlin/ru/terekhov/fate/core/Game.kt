@@ -1,20 +1,26 @@
 package ru.terekhov.fate.core
 
+import ru.terekhov.fate.core.actions.ActionHandler
+import ru.terekhov.fate.core.actions.UserAction
 import ru.terekhov.fate.core.locations.Location
 import ru.terekhov.fate.core.locations.LocationEntityGateway
 
-class Game {
+class Game(private var locationEntityGateway: LocationEntityGateway) : ActionHandler {
     var currentLocation: Location
-    private var locationEntityGateway: LocationEntityGateway
 
-    constructor(locationEntityGateway: LocationEntityGateway) {
-        this.locationEntityGateway = locationEntityGateway
-        currentLocation = locationEntityGateway.loadLocation(1)
+    init {
+        currentLocation = locationEntityGateway.loadLocation("default")
     }
 
 
-    fun loadLocation(location: Int) {
-        currentLocation = locationEntityGateway.loadLocation(location)
+    fun loadLocation(locationId: String) {
+        currentLocation = locationEntityGateway.loadLocation(locationId)
+    }
+
+    override fun handleAction(action: UserAction) {
+        when (action.type) {
+            "move" -> loadLocation(action.locationId)
+        }
     }
 
 }
