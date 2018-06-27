@@ -5,14 +5,27 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
 import org.springframework.web.bind.annotation.GetMapping
+import ru.terekhov.fate.core.actions.BaseAction
 
 @Controller
-class HtmlController {
+class HtmlController(gameConfiguration: GameConfiguration, val presenter: SimpleDescriptionPresenter) {
+    val game = gameConfiguration.createGame()
 
     @GetMapping("/")
     fun blog(model: Model): String {
-        model["title"] = "Sample controller"
+        model["title"] = "Cool text RPG!"
+        model["description"] = presenter.description.description
+        model["actions"] = presenter.description.actions.map { it.render() }
         return "home"
     }
 
 }
+
+private fun BaseAction.render() = RenderedAction(
+    description, callToAction
+)
+
+data class RenderedAction (
+        val description: String,
+        val callToAction: String
+)

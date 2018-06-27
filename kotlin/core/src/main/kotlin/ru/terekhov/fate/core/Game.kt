@@ -15,6 +15,7 @@ class Game(private val locationEntityGateway: LocationEntityGateway,
 
     init {
         currentLocation = locationEntityGateway.loadLocation("default")
+        presentDescription()
     }
 
     fun loadLocation(locationId: String) {
