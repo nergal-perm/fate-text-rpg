@@ -13,4 +13,13 @@ class MoveAction(
     override fun act(game: Game) {
         game.loadLocation(destinationId)
     }
+
+    override fun toString(): String {
+        return "MOVE: $callToAction ($description) to $destinationId"
+    }
+
+    // Testing purposes only!!!
+    override fun equals(other: Any?): Boolean {
+        return super.equals(other) || this.toString() == other.toString()
+    }
 }
