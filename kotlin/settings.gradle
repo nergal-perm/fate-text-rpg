@@ -1,4 +1,4 @@
 rootProject.name = 'fate-rpg'
 
 include 'core'
-include 'cli'
+include 'webclient'

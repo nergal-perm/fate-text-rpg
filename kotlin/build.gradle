@@ -31,3 +31,9 @@ subprojects {
         useJUnitPlatform()
     }
 }
+
+project(':webclient') {
+    dependencies {
+        compile project(':core')
+    }
+}
