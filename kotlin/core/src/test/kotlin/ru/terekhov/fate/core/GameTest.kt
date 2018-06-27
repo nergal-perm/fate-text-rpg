@@ -1,9 +1,12 @@
 package ru.terekhov.fate.core
 
+import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockkClass
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import ru.terekhov.fate.core.actions.MoveAction
 import ru.terekhov.fate.core.descriptions.Description
@@ -13,15 +16,24 @@ import ru.terekhov.fate.core.locations.LocationEntityGateway
 
 class GameTest {
     companion object {
-        val moveToCity01Action = MoveAction("Неподалёку виднеется лавка торговца", "Перейти к лавке", "city01")
-        val moveToDefaultAction = MoveAction("Можно пройти обратно на базар", "Вернуться на базар", "default")
+        val moveToCity01Action = MoveAction("moveToCity01", "Неподалёку виднеется лавка торговца", "Перейти к лавке", "city01")
+        val moveToDefaultAction = MoveAction("moveToDefault", "Можно пройти обратно на базар", "Вернуться на базар", "default")
+        val descriptionPresenter = mockkClass(DescriptionPresenter::class)
     }
 
+    @BeforeEach
+    fun setUp() {
+        clearMocks(descriptionPresenter)
+        every {
+            descriptionPresenter.showDescription(any())
+        } answers {
+            println("Hey!")
+        }
+    }
 
     @Test
     fun `should handle user movement`() {
         // Given
-        val descriptionPresenter = mockkClass(DescriptionPresenter::class)
         val game = Game(StubLocationEntityGateway(), descriptionPresenter)
         var expectedLocation = Location(1, "Вы пришли на базар", listOf(moveToCity01Action))
         assertThat(game.currentLocation).isEqualTo(expectedLocation)
@@ -44,20 +56,10 @@ class GameTest {
     @Test
     fun `should pass proper description and actions to UI`() {
         // Given
-        val descriptionPresenter = mockkClass(DescriptionPresenter::class)
-        every {
-            descriptionPresenter.showDescription(any())
-        } answers {
-
-        }
         val game = Game(StubLocationEntityGateway(), descriptionPresenter)
 
-        // When
-        game.presentDescription()
-
         // Then
-        val expectedDescription = Description("Вы пришли на базар",
-                listOf(MoveAction("Неподалёку виднеется лавка торговца", "Перейти к лавке", "city01")))
+        val expectedDescription = Description("Вы пришли на базар", listOf(moveToCity01Action))
         verify(exactly = 1) { descriptionPresenter.showDescription(expectedDescription) }
     }
 }

@@ -3,6 +3,7 @@ package ru.terekhov.fate.core.actions
 import ru.terekhov.fate.core.Game
 
 class MoveAction(
+        override val id: String,
         override val description: String,
         override val callToAction: String,
         private val destinationId: String) : BaseAction() {

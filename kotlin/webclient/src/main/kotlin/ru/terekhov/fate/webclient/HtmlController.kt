@@ -22,10 +22,11 @@ class HtmlController(gameConfiguration: GameConfiguration, val presenter: Simple
 }
 
 private fun BaseAction.render() = RenderedAction(
-    description, callToAction
+    id, description, callToAction
 )
 
 data class RenderedAction (
+        val id: String,
         val description: String,
         val callToAction: String
 )

@@ -32,8 +32,8 @@ class GameConfiguration {
 
 class StubLocationEntityGateway: LocationEntityGateway {
     companion object {
-        val moveToCity01Action = MoveAction("Неподалёку виднеется лавка торговца", "Перейти к лавке", "city01")
-        val moveToDefaultAction = MoveAction("Можно пройти обратно на базар", "Вернуться на базар", "default")
+        val moveToCity01Action = MoveAction("moveToCity01", "Неподалёку виднеется лавка торговца", "Перейти к лавке", "city01")
+        val moveToDefaultAction = MoveAction("moveToDefault", "Можно пройти обратно на базар", "Вернуться на базар", "default")
     }
 
     var locations = mapOf(
