@@ -9,7 +9,7 @@ import ru.terekhov.fate.core.actions.MoveAction
 import ru.terekhov.fate.core.descriptions.Description
 import ru.terekhov.fate.core.descriptions.DescriptionPresenter
 import ru.terekhov.fate.core.locations.Location
-import ru.terekhov.fate.core.locations.LocationEntityGateway
+import ru.terekhov.fate.core.locations.LocationRepository
 
 @SpringBootApplication
 class WebclientApplication
@@ -30,7 +30,7 @@ class GameConfiguration {
     fun descriptionPresenter() = SimpleDescriptionPresenter()
 }
 
-class StubLocationEntityGateway: LocationEntityGateway {
+class StubLocationEntityGateway: LocationRepository {
     companion object {
         val moveToCity01Action = MoveAction("moveToCity01", "Неподалёку виднеется лавка торговца", "Перейти к лавке", "city01")
         val moveToDefaultAction = MoveAction("moveToDefault", "Можно пройти обратно на базар", "Вернуться на базар", "default")

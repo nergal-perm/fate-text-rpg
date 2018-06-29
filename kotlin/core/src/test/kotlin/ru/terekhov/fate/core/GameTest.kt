@@ -5,14 +5,13 @@ import io.mockk.every
 import io.mockk.mockkClass
 import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import ru.terekhov.fate.core.actions.MoveAction
 import ru.terekhov.fate.core.descriptions.Description
 import ru.terekhov.fate.core.descriptions.DescriptionPresenter
 import ru.terekhov.fate.core.locations.Location
-import ru.terekhov.fate.core.locations.LocationEntityGateway
+import ru.terekhov.fate.core.locations.LocationRepository
 
 class GameTest {
     companion object {
@@ -34,7 +33,7 @@ class GameTest {
     @Test
     fun `should handle user movement`() {
         // Given
-        val game = Game(StubLocationEntityGateway(), descriptionPresenter)
+        val game = Game(StubLocationRepository(), descriptionPresenter)
         var expectedLocation = Location(1, "Вы пришли на базар", listOf(moveToCity01Action))
         assertThat(game.currentLocation).isEqualTo(expectedLocation)
 
@@ -55,8 +54,10 @@ class GameTest {
 
     @Test
     fun `should pass proper description and actions to UI`() {
+        // TODO: Rewrite, cause now constructor has side effect
+
         // Given
-        val game = Game(StubLocationEntityGateway(), descriptionPresenter)
+        val game = Game(StubLocationRepository(), descriptionPresenter)
 
         // Then
         val expectedDescription = Description("Вы пришли на базар", listOf(moveToCity01Action))
@@ -64,7 +65,7 @@ class GameTest {
     }
 }
 
-class StubLocationEntityGateway: LocationEntityGateway {
+class StubLocationRepository: LocationRepository {
     var locations = mapOf(
             "default" to Location(1, "Вы пришли на базар", listOf(GameTest.moveToCity01Action)),
             "city01" to Location(5, "Всем привет", listOf(GameTest.moveToDefaultAction)))

@@ -1,5 +1,5 @@
 package ru.terekhov.fate.core.locations
 
-interface LocationEntityGateway {
+interface LocationRepository {
     fun loadLocation(locationId: String): Location
 }
