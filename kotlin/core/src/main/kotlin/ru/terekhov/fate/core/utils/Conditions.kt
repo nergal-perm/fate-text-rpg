@@ -1,12 +1,42 @@
 package ru.terekhov.fate.core.utils
 
-class ConditionEvaluator(val condition:String) {
+import ru.terekhov.fate.core.states.GameStateRepository
+
+class ConditionEvaluator(private val gameState: GameStateRepository) {
+    var negative: Boolean = false
+    var argCount: Int = 0
+
+
     /*
         Condition pattern is: [!](world|player|npc|location|limbo|game).FIELD_NAME (has|eq|gt|lt) SOME_VALUE"
-     */
+        should always have 4 parts in it
+    */
 
-    fun eval() {
-        var splitCondition = condition.split(" ")
+    fun eval(condition: String): ConditionResult {
+        val conditionParts: List<String> = condition.replace("!", "").split(".", " ")
+        negative = condition.startsWith("!")
 
+        argCount = conditionParts.size
+        // TODO: validate conditionParts.size somehow?
+
+        val actual = when(conditionParts[0]) {
+            "game" -> gameState.getValue(conditionParts[1])
+            else -> "false"
+        }
+
+        val result = when(conditionParts[2]) {
+            "eq" -> actual == conditionParts[3]
+            "gt" -> actual.toDouble() > conditionParts[3].toDouble()
+            "lt" -> actual.toDouble() < conditionParts[3].toDouble()
+            else -> false
+        }
+
+
+        return ConditionResult(condition, if (negative) !result else result)
     }
 }
+
+data class ConditionResult(
+        val condition: String,
+        val result: Boolean
+)

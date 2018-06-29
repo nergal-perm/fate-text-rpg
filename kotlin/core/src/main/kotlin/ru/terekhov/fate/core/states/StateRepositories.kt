@@ -6,6 +6,7 @@ package ru.terekhov.fate.core.states
  *
  */
 interface GameStateRepository {
+    fun getValue(key: String): String
 
 }
 
