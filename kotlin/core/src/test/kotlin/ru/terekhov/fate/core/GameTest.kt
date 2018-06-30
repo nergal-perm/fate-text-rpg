@@ -7,9 +7,9 @@ import io.mockk.verify
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import ru.terekhov.fate.core.actions.ActionResultListener
 import ru.terekhov.fate.core.actions.MoveAction
 import ru.terekhov.fate.core.descriptions.Description
-import ru.terekhov.fate.core.descriptions.DescriptionPresenter
 import ru.terekhov.fate.core.locations.Location
 import ru.terekhov.fate.core.locations.LocationRepository
 
@@ -17,7 +17,7 @@ class GameTest {
     companion object {
         val moveToCity01Action = MoveAction("moveToCity01", "Неподалёку виднеется лавка торговца", "Перейти к лавке", "city01")
         val moveToDefaultAction = MoveAction("moveToDefault", "Можно пройти обратно на базар", "Вернуться на базар", "default")
-        val descriptionPresenter = mockkClass(DescriptionPresenter::class)
+        val descriptionPresenter = mockkClass(ActionResultListener::class)
     }
 
     @BeforeEach
@@ -26,14 +26,17 @@ class GameTest {
         every {
             descriptionPresenter.showDescription(any())
         } answers {
-            println("Hey!")
+            // do nothing
         }
     }
 
     @Test
     fun `should handle user movement`() {
         // Given
-        val game = Game(StubLocationRepository(), descriptionPresenter)
+        val game = Game()
+        game.locations = StubLocationRepository()
+        game.setListener(descriptionPresenter)
+        game.startGame()
         var expectedLocation = Location(1, "Вы пришли на базар", listOf(moveToCity01Action))
         assertThat(game.currentLocation).isEqualTo(expectedLocation)
 
@@ -57,7 +60,10 @@ class GameTest {
         // TODO: Rewrite, cause now constructor has side effect
 
         // Given
-        val game = Game(StubLocationRepository(), descriptionPresenter)
+        val game = Game()
+        game.locations = StubLocationRepository()
+        game.setListener(descriptionPresenter)
+        game.startGame()
 
         // Then
         val expectedDescription = Description("Вы пришли на базар", listOf(moveToCity01Action))
