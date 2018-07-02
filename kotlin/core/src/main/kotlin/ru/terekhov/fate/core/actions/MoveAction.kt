@@ -11,11 +11,7 @@ class MoveAction(
     override val type: ActionType
         get() = ActionType.MOVE
 
-    override fun validate(game: Game): Boolean {
-        return game.currentLocation.actions.any { (it.id == this.id ) }
-    }
+    override fun validate(game: Game) = game.currentLocation.actions.any { (it.id == this.id ) }
 
-    override fun act(game: Game) {
-        game.loadLocation(destinationId)
-    }
+    override fun act(game: Game) = listOf("game.currentLocation = " + this.destinationId)
 }

@@ -28,14 +28,12 @@ class Game : ActionHandler {
         // Validate action
         if (action.validate(this)) {
             action.act(this)
-            // Choose reaction
+            // Choose and apply reaction
             // Generate description
         } else {
             // Generate error description
 
         }
-
-
 
         // Make ActionResultListener render the description
         presentDescription()

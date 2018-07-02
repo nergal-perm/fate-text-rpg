@@ -1,12 +1,10 @@
 package ru.terekhov.fate.core.actions
 
 import io.mockk.*
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import ru.terekhov.fate.core.Game
-import ru.terekhov.fate.core.GameTest
-import ru.terekhov.fate.core.StubLocationRepository
 import ru.terekhov.fate.core.locations.Location
 
 internal class MoveActionTest {
@@ -89,12 +87,13 @@ internal class MoveActionTest {
     fun `should handle user movement`() {
         // Given
         val target = MoveAction("moveToId", "someDesc", "someCall", "city02")
+        val expectedDestination = "game.currentLocation = city02"
 
         // When
-        target.act(game)
+        val actual = target.act(game)
 
         // Then
-        verify { game.loadLocation("city02") }
-
+        assertThat(expectedDestination).isIn(actual)
+        assertThat(actual.size).isEqualTo(1)
     }
 }
