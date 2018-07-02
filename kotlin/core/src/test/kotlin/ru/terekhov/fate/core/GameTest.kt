@@ -1,9 +1,6 @@
 package ru.terekhov.fate.core
 
-import io.mockk.clearMocks
-import io.mockk.every
-import io.mockk.mockkClass
-import io.mockk.verify
+import io.mockk.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -13,7 +10,7 @@ import ru.terekhov.fate.core.descriptions.Description
 import ru.terekhov.fate.core.locations.Location
 import ru.terekhov.fate.core.locations.LocationRepository
 
-class GameTest {
+internal class GameTest {
     companion object {
         val moveToCity01Action = MoveAction("moveToCity01", "Неподалёку виднеется лавка торговца", "Перейти к лавке", "city01")
         val moveToDefaultAction = MoveAction("moveToDefault", "Можно пройти обратно на базар", "Вернуться на базар", "default")
@@ -25,34 +22,7 @@ class GameTest {
         clearMocks(descriptionPresenter)
         every {
             descriptionPresenter.showDescription(any())
-        } answers {
-            // do nothing
-        }
-    }
-
-    @Test
-    fun `should handle user movement`() {
-        // Given
-        val game = Game()
-        game.locations = StubLocationRepository()
-        game.setListener(descriptionPresenter)
-        game.startGame()
-        var expectedLocation = Location(1, "Вы пришли на базар", listOf(moveToCity01Action))
-        assertThat(game.currentLocation).isEqualTo(expectedLocation)
-
-        // When
-        game.handleAction(game.currentLocation.actions[0])
-
-        // Then
-        expectedLocation = Location(5, "Всем привет", listOf(moveToDefaultAction))
-        assertThat(game.currentLocation).isEqualTo(expectedLocation)
-
-        // When
-        game.handleAction(game.currentLocation.actions[0])
-
-        // Then
-        expectedLocation = Location(1, "Вы пришли на базар", listOf(moveToCity01Action))
-        assertThat(game.currentLocation).isEqualTo(expectedLocation)
+        } just Runs
     }
 
     @Test

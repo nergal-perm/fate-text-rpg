@@ -6,7 +6,7 @@ import ru.terekhov.fate.core.states.GameStateRepository
 import ru.terekhov.fate.core.utils.ConditionEvaluator
 import ru.terekhov.fate.core.utils.ConditionResult
 
-class ConditionEvaluatorTest {
+internal class ConditionEvaluatorTest {
 
     @Test
     fun `should distinct negative and positive`() {

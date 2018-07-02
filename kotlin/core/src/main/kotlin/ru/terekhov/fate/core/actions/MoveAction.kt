@@ -11,16 +11,11 @@ class MoveAction(
     override val type: ActionType
         get() = ActionType.MOVE
 
+    override fun validate(game: Game): Boolean {
+        return game.currentLocation.actions.any { (it.id == this.id ) }
+    }
+
     override fun act(game: Game) {
         game.loadLocation(destinationId)
-    }
-
-    override fun toString(): String {
-        return "MOVE: $callToAction ($description) to $destinationId"
-    }
-
-    // Testing purposes only!!!
-    override fun equals(other: Any?): Boolean {
-        return super.equals(other) || this.toString() == other.toString()
     }
 }

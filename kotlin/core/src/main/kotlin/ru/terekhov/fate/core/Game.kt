@@ -26,9 +26,17 @@ class Game : ActionHandler {
 
     override fun handleAction(action: BaseAction) {
         // Validate action
-        action.act(this)
-        // Choose reaction
-        // Generate description
+        if (action.validate(this)) {
+            action.act(this)
+            // Choose reaction
+            // Generate description
+        } else {
+            // Generate error description
+
+        }
+
+
+
         // Make ActionResultListener render the description
         presentDescription()
     }

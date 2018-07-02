@@ -4,6 +4,7 @@ import ru.terekhov.fate.core.Game
 
 interface FateAction {
     fun act(game: Game)
+    fun validate(game: Game): Boolean
 }
 
 abstract class BaseAction: FateAction {
