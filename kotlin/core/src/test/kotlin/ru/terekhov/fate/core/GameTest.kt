@@ -1,12 +1,11 @@
 package ru.terekhov.fate.core
 
 import io.mockk.*
-import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import ru.terekhov.fate.core.actions.ActionResultListener
 import ru.terekhov.fate.core.actions.MoveAction
-import ru.terekhov.fate.core.descriptions.Description
+import ru.terekhov.fate.core.descriptions.Representation
 import ru.terekhov.fate.core.locations.Location
 import ru.terekhov.fate.core.locations.LocationRepository
 
@@ -36,7 +35,7 @@ internal class GameTest {
         game.startGame()
 
         // Then
-        val expectedDescription = Description("Вы пришли на базар", listOf(moveToCity01Action))
+        val expectedDescription = Representation("Вы пришли на базар", listOf(moveToCity01Action))
         verify(exactly = 1) { descriptionPresenter.showDescription(expectedDescription) }
     }
 }

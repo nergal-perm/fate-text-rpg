@@ -14,8 +14,8 @@ class HtmlController(gameConfiguration: GameConfiguration, val presenter: Simple
     @GetMapping("/")
     fun blog(model: Model): String {
         model["title"] = "Cool text RPG!"
-        model["description"] = presenter.description.description
-        model["actions"] = presenter.description.actions.map { it.render() }
+        model["representation"] = presenter.representation.description
+        model["actions"] = presenter.representation.actions.map { it.render() }
         return "home"
     }
 

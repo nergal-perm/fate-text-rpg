@@ -4,11 +4,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import ru.terekhov.fate.core.Game
 import ru.terekhov.fate.core.actions.ActionHandler
 import ru.terekhov.fate.core.actions.ActionResultListener
 import ru.terekhov.fate.core.actions.MoveAction
-import ru.terekhov.fate.core.descriptions.Description
+import ru.terekhov.fate.core.descriptions.Representation
 import ru.terekhov.fate.core.locations.Location
 import ru.terekhov.fate.core.locations.LocationRepository
 import ru.terekhov.fate.core.states.*
@@ -59,10 +58,10 @@ class StubLocationEntityGateway: LocationRepository {
 }
 
 class SimpleDescriptionPresenter: ActionResultListener {
-    lateinit var description: Description
+    lateinit var representation: Representation
 
-    override fun showDescription(desc: Description) {
-        this.description = desc
+    override fun showDescription(desc: Representation) {
+        this.representation = desc
     }
 }
 

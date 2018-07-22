@@ -1,6 +1,6 @@
 package ru.terekhov.fate.core.actions
 
-import ru.terekhov.fate.core.descriptions.Description
+import ru.terekhov.fate.core.descriptions.Representation
 
 interface ActionHandler {
     fun handleAction(action: BaseAction)
@@ -9,5 +9,5 @@ interface ActionHandler {
 }
 
 interface ActionResultListener {
-    fun showDescription(desc: Description)
+    fun showDescription(desc: Representation)
 }
