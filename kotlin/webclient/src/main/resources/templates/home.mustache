@@ -1,17 +1,18 @@
 {{> header}}
 
-<p>{{description}}</p>
+<p>{{representation}}</p>
+
+{{#actions}}
+    <p>{{description}}</p>
+{{/actions}}
 
 <div class="actions">
 
     {{#actions}}
         <section>
             <header class="article-header">
-                <h2 class="article-title">{{id}} - {{callToAction}}</h2>
+                <a href="/action/{{id}}">{{callToAction}}</a>
             </header>
-            <div class="article-description">
-                {{description}}
-            </div>
         </section>
     {{/actions}}
 </div>

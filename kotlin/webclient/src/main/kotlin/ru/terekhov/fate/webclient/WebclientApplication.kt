@@ -1,15 +1,16 @@
 package ru.terekhov.fate.webclient
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import ru.terekhov.fate.core.actions.ActionHandler
 import ru.terekhov.fate.core.actions.ActionResultListener
-import ru.terekhov.fate.core.actions.MoveAction
 import ru.terekhov.fate.core.descriptions.Representation
-import ru.terekhov.fate.core.locations.Location
 import ru.terekhov.fate.core.locations.LocationRepository
+import ru.terekhov.fate.core.model.LocationModel
 import ru.terekhov.fate.core.states.*
 import ru.terekhov.fate.core.utils.AbstractEngineFactory
 
@@ -34,27 +35,18 @@ class GameConfiguration {
     }
 
     @Bean
-    fun locationEntityGateway() = StubLocationEntityGateway()
+    fun locationEntityGateway() = LocationJsonLoader()
 
     @Bean
     fun descriptionPresenter() = SimpleDescriptionPresenter()
 }
 
-class StubLocationEntityGateway: LocationRepository {
-    companion object {
-        val moveToCity01Action = MoveAction("moveToCity01", "Неподалёку виднеется лавка торговца", "Перейти к лавке", "city01")
-        val moveToDefaultAction = MoveAction("moveToDefault", "Можно пройти обратно на базар", "Вернуться на базар", "default")
+class LocationJsonLoader: LocationRepository {
+    override fun loadLocation(locationId: String): LocationModel {
+        val mapper = jacksonObjectMapper()
+        val locationFile = javaClass.classLoader.getResource("content/$locationId.json")
+        return mapper.readValue(locationFile)
     }
-
-    private var locations = mapOf(
-            "default" to Location(1, "Вы пришли на базар", listOf(moveToCity01Action)),
-            "city01" to Location(5, "Всем привет", listOf(moveToDefaultAction)))
-    override fun loadLocation(locationId: String): Location {
-        return if (locationId in locations)
-            locations[locationId]!!
-        else Location(-1, "Несуществующая локация", listOf())
-    }
-
 }
 
 class SimpleDescriptionPresenter: ActionResultListener {
@@ -76,6 +68,10 @@ class SpringEngineFactory(
                     limboStateRepository, characterStateRepository, locationRepository)
 
 class SpringGameStateRepository: GameStateRepository {
+    override fun setValue(key: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getValue(key: String): String {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

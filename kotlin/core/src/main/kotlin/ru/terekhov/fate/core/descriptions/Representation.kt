@@ -1,8 +1,8 @@
 package ru.terekhov.fate.core.descriptions
 
-import ru.terekhov.fate.core.actions.BaseAction
+import ru.terekhov.fate.core.model.ActionModel
 
 data class Representation(
         val description: String,
-        val actions: List<BaseAction>
+        val actions: Array<ActionModel>
 )

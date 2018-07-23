@@ -6,6 +6,8 @@ import ru.terekhov.fate.core.actions.BaseAction
 import ru.terekhov.fate.core.descriptions.Representation
 import ru.terekhov.fate.core.locations.Location
 import ru.terekhov.fate.core.locations.LocationRepository
+import ru.terekhov.fate.core.model.ActionModel
+import ru.terekhov.fate.core.model.LocationModel
 import ru.terekhov.fate.core.states.*
 
 class Game : ActionHandler {
@@ -16,7 +18,7 @@ class Game : ActionHandler {
     lateinit var limboState: LimboStateRepository
     lateinit var charactersState: CharacterStateRepository
     lateinit var locationState: LocationStateRepository
-    lateinit var currentLocation: Location
+    lateinit var currentLocation: LocationModel
     private lateinit var listener: ActionResultListener
 
 
@@ -24,11 +26,14 @@ class Game : ActionHandler {
         currentLocation = locations.loadLocation(locationId)
     }
 
-    override fun handleAction(action: BaseAction) {
+    override fun handleAction(actionId: String) {
         // Validate action
-        if (action.validate(this)) {
-            action.act(this)
+        val action: ActionModel? = currentLocation.actions.filter { it.id == actionId }[0]
+        if (action != null) {
             // Choose and apply reaction
+            if (action.destination != null) {
+                currentLocation = locations.loadLocation(action.destination)
+            }
             // Generate description
         } else {
             // Generate error description
@@ -47,13 +52,13 @@ class Game : ActionHandler {
         presentDescription()
     }
 
-    fun presentDescription() {
+    private fun presentDescription() {
         if (!::currentLocation.isInitialized) {
             currentLocation = locations.loadLocation("default")
         }
         listener.showDescription(
                 Representation(
-                        currentLocation.description,
+                        currentLocation.description.longDesc ?: currentLocation.description.shortDesc,
                         currentLocation.actions
                 )
         )

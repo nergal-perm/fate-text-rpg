@@ -47,6 +47,7 @@ enum class ActionType {
 }
 
 data class ActionModel(
+        val id: String,
         val type: ActionType,
         val description: GenericDescription,
         val condition: String?,
