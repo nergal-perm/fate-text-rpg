@@ -6,6 +6,10 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import ru.terekhov.fate.core.Game
 import ru.terekhov.fate.core.locations.Location
+import ru.terekhov.fate.core.model.ActionModel
+import ru.terekhov.fate.core.model.GenericDescription
+import ru.terekhov.fate.core.model.LocationModel
+import ru.terekhov.fate.core.model.ActionType.*
 
 internal class MoveActionTest {
     companion object {
@@ -39,12 +43,16 @@ internal class MoveActionTest {
         every {
             game.currentLocation
         } answers {
-            Location(1, "short description",
-                    listOf(
-                            MoveAction("id01", "someDesc", "someCall", "city02"),
-                            MoveAction("id02", "someDesc", "someCall", "city03"),
-                            MoveAction("id03", "someDesc", "someCall", "city04"),
-                            MoveAction("id04", "someDesc", "someCall", "city05")))
+            LocationModel("1", GenericDescription("short description", null), null,
+                    arrayOf(
+                            ActionModel("id01", MOVE, GenericDescription("someDesc", "someCall"),
+                                    null,null,"city02"),
+                            ActionModel("id02", MOVE, GenericDescription("someDesc", "someCall"),
+                                    null, null, "city03"),
+                            ActionModel("id03", MOVE, GenericDescription("someDesc", "someCall"),
+                                    null, null,"city04"),
+                            ActionModel("id04", MOVE, GenericDescription("someDesc", "someCall"),
+                                    null, null,"city05")))
         }
 
         // Given
@@ -64,12 +72,16 @@ internal class MoveActionTest {
         every {
             game.currentLocation
         } answers {
-            Location(1, "short description",
-                    listOf(
-                            MoveAction("id01", "someDesc", "someCall", "city02"),
-                            MoveAction("id02", "someDesc", "someCall", "city03"),
-                            MoveAction("id03", "someDesc", "someCall", "city04"),
-                            MoveAction("id04", "someDesc", "someCall", "city05")))
+            LocationModel("1", GenericDescription("short description", null), null,
+                    arrayOf(
+                            ActionModel("id01", MOVE, GenericDescription("someDesc", "someCall"),
+                                    null,null,"city02"),
+                            ActionModel("id02", MOVE, GenericDescription("someDesc", "someCall"),
+                                    null, null, "city03"),
+                            ActionModel("id03", MOVE, GenericDescription("someDesc", "someCall"),
+                                    null, null,"city04"),
+                            ActionModel("id04", MOVE, GenericDescription("someDesc", "someCall"),
+                                    null, null,"city05")))
         }
 
         // Given

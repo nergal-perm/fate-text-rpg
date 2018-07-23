@@ -43,14 +43,17 @@ internal class ConditionEvaluatorTest {
 }
 
 class StubGameStateRepository: GameStateRepository {
-    var state: Map<String, String> = HashMap()
+    var state: MutableMap<String, String> = HashMap()
 
     override fun getValue(key: String): String {
         return state[key] ?: "false"
     }
 
+    override fun setValue(key: String, value: String) {
+        state[key] = value
+    }
 }
 
-fun StubGameStateRepository.setState(state: Map<String, String>) {
+fun StubGameStateRepository.setState(state: MutableMap<String, String>) {
     this.state = state
 }

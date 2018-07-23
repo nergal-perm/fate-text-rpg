@@ -2,9 +2,7 @@ package ru.terekhov.fate.core
 
 import ru.terekhov.fate.core.actions.ActionHandler
 import ru.terekhov.fate.core.actions.ActionResultListener
-import ru.terekhov.fate.core.actions.BaseAction
 import ru.terekhov.fate.core.descriptions.Representation
-import ru.terekhov.fate.core.locations.Location
 import ru.terekhov.fate.core.locations.LocationRepository
 import ru.terekhov.fate.core.model.ActionModel
 import ru.terekhov.fate.core.model.LocationModel
