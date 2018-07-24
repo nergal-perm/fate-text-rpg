@@ -50,7 +50,7 @@ class LocationJsonLoader: LocationRepository {
 }
 
 class SimpleDescriptionPresenter: ActionResultListener {
-    lateinit var representation: Representation
+    var representation: Representation? = null
 
     override fun showDescription(desc: Representation) {
         this.representation = desc
@@ -68,13 +68,17 @@ class SpringEngineFactory(
                     limboStateRepository, characterStateRepository, locationRepository)
 
 class SpringGameStateRepository: GameStateRepository {
-    override fun setValue(key: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    private val state = HashMap<String, String>()
+    override fun setValue(key: String, value: String) {
+        state[key] = value
     }
 
-    override fun getValue(key: String): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun getValue(key: String): String =
+        when (state.containsKey(key)) {
+            true -> state[key].toString()
+            false -> ""
+        }
+
 }
 
 class SpringWorldStateRepository: WorldStateRepository

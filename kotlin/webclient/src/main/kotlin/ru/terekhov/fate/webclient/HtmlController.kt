@@ -14,27 +14,26 @@ class HtmlController(gameConfiguration: GameConfiguration, val presenter: Simple
 
     @GetMapping("/")
     fun renderHomePage(model: Model): String {
-        model["representation"] = presenter.representation.description
-        model["actions"] = presenter.representation.actions.map { it.render() }
+        model["representation"] = presenter.representation!!.description
+        model["actions"] = presenter.representation!!.actions.map { it.render() }
         return "home"
     }
 
     @GetMapping("/action/{id}")
     fun renderActionResult(@PathVariable id:String, model: Model): String {
         game.handleAction(id)
-        model["representation"] = presenter.representation.description
-        model["actions"] = presenter.representation.actions.map { it.render() }
+        model["representation"] = presenter.representation!!.description
+        model["actions"] = presenter.representation!!.actions.map { it.render() }
         return "home"
     }
 
 }
 
 private fun ActionModel.render() = RenderedAction(
-    id, description.longDesc ?: "", description.shortDesc
+    id,  description
 )
 
 data class RenderedAction (
         val id: String,
-        val description: String,
         val callToAction: String
 )

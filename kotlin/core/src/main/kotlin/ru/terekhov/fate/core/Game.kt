@@ -7,6 +7,8 @@ import ru.terekhov.fate.core.locations.LocationRepository
 import ru.terekhov.fate.core.model.ActionModel
 import ru.terekhov.fate.core.model.LocationModel
 import ru.terekhov.fate.core.states.*
+import ru.terekhov.fate.core.utils.ConditionEvaluator
+import ru.terekhov.fate.core.utils.OutcomeHandler
 
 class Game : ActionHandler {
 
@@ -17,6 +19,8 @@ class Game : ActionHandler {
     lateinit var charactersState: CharacterStateRepository
     lateinit var locationState: LocationStateRepository
     lateinit var currentLocation: LocationModel
+    lateinit var outcomeHandler: OutcomeHandler
+    lateinit var conditionEvaluator: ConditionEvaluator
     private lateinit var listener: ActionResultListener
 
 
@@ -27,10 +31,11 @@ class Game : ActionHandler {
     override fun handleAction(actionId: String) {
         // Validate action
         val action: ActionModel? = currentLocation.actions.filter { it.id == actionId }[0]
+        var actionResult = ""
         if (action != null) {
-            // Choose and apply reaction
-            if (action.destination != null) {
-                currentLocation = locations.loadLocation(action.destination)
+            if (action.outcome != null) {
+                outcomeHandler.eval(action.outcome.outcome)
+                actionResult = action.outcome.description ?: ""
             }
             // Generate description
         } else {
@@ -38,8 +43,10 @@ class Game : ActionHandler {
 
         }
 
+
+        currentLocation = locations.loadLocation(gameState.getValue("location"))
         // Make ActionResultListener render the description
-        presentDescription()
+        presentDescription(actionResult)
     }
 
     override fun setListener(listener: ActionResultListener) {
@@ -47,17 +54,15 @@ class Game : ActionHandler {
     }
 
     override fun startGame() {
-        presentDescription()
+        currentLocation = locations.loadLocation("default")
+        presentDescription("")
     }
 
-    private fun presentDescription() {
-        if (!::currentLocation.isInitialized) {
-            currentLocation = locations.loadLocation("default")
-        }
+    private fun presentDescription(actionResult: String) {
         listener.showDescription(
                 Representation(
-                        currentLocation.description.longDesc ?: currentLocation.description.shortDesc,
-                        currentLocation.actions
+                        actionResult + "\n" + currentLocation.description,
+                        currentLocation.actions.filter { conditionEvaluator.eval(it.condition).result }.toTypedArray()
                 )
         )
     }

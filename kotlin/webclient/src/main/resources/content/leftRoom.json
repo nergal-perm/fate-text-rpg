@@ -1,12 +1,22 @@
 {
   "id": "leftRoom",
-  "description": {
-    "shortDesc": "Вы нерешительно приблизились к левой двери. Ее цвет кажется чуть темнее ослепительно белых стен зала.",
-    "longDesc": "Левая дверь привлекла ваше внимание и вы нерешительно приблизились к ней. Чем ближе вы подходили, тем четче осознавали, что что-то вокруг вас идет не так..."
-  }, "actions": [{
-  "id": "goBackToStart",
-  "type": "MOVE",
-  "description": { "longDesc": "Вам стало страшно и вы решили вернуться в центр зала", "shortDesc": "Вернуться в центр зала..."},
-  "destination": "default"
-}]
+  "description": "Левая дверь привлекла ваше внимание и вы нерешительно приблизились к ней. Чем ближе вы подходили, тем четче осознавали, что что-то вокруг вас идет не так...",
+  "actions": [{
+    "id": "goBackToStart",
+    "type": "MOVE",
+    "description": "Вернуться в центр зала...",
+    "outcome": {"outcome": "game.location = default"}
+  }, {
+    "id": "turnOffTheLight",
+    "type": "MOVE",
+    "condition": "!game.lights eq off",
+    "description": "Выключить свет...",
+    "outcome": {"description": "Свет медленно гаснет. В полной темноте вы двигаетесь к центру зала", "outcome": "game.location=startLightsOff and game.lights=off"}
+  }, {
+    "id": "turnOnTheLight",
+    "type": "MOVE",
+    "condition": "game.lights eq off",
+    "description": "Включить свет...",
+    "outcome": {"description": "Свет медленно зажигается. Вы торопитесь занять свое место в центре зала", "outcome": "game.location=default and game.lights=on"}
+  }]
 }

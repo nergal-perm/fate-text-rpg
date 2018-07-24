@@ -5,11 +5,10 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import ru.terekhov.fate.core.Game
-import ru.terekhov.fate.core.locations.Location
 import ru.terekhov.fate.core.model.ActionModel
-import ru.terekhov.fate.core.model.GenericDescription
+import ru.terekhov.fate.core.model.ActionType.MOVE
+import ru.terekhov.fate.core.model.GenericOutcome
 import ru.terekhov.fate.core.model.LocationModel
-import ru.terekhov.fate.core.model.ActionType.*
 
 internal class MoveActionTest {
     companion object {
@@ -43,16 +42,18 @@ internal class MoveActionTest {
         every {
             game.currentLocation
         } answers {
-            LocationModel("1", GenericDescription("short description", null), null,
+            LocationModel("1", "short description", null,
                     arrayOf(
-                            ActionModel("id01", MOVE, GenericDescription("someDesc", "someCall"),
-                                    null,null,"city02"),
-                            ActionModel("id02", MOVE, GenericDescription("someDesc", "someCall"),
-                                    null, null, "city03"),
-                            ActionModel("id03", MOVE, GenericDescription("someDesc", "someCall"),
-                                    null, null,"city04"),
-                            ActionModel("id04", MOVE, GenericDescription("someDesc", "someCall"),
-                                    null, null,"city05")))
+                            ActionModel("id01", MOVE, "someDesc",
+                                    null,null, GenericOutcome("Some description", "game.location=city02")),
+                            ActionModel("id02", MOVE, "someDesc",
+                                    null, null, GenericOutcome("Some description", "game.location=city03")),
+                            ActionModel("id03", MOVE, "someDesc",
+                                    null, null,GenericOutcome("Some description", "game.location=city04")),
+                            ActionModel("id04", MOVE, "someDesc",
+                                    null, null,GenericOutcome("Some description", "game.location=city05"))
+                    )
+            )
         }
 
         // Given
@@ -72,16 +73,18 @@ internal class MoveActionTest {
         every {
             game.currentLocation
         } answers {
-            LocationModel("1", GenericDescription("short description", null), null,
+            LocationModel("1", "short description", null,
                     arrayOf(
-                            ActionModel("id01", MOVE, GenericDescription("someDesc", "someCall"),
-                                    null,null,"city02"),
-                            ActionModel("id02", MOVE, GenericDescription("someDesc", "someCall"),
-                                    null, null, "city03"),
-                            ActionModel("id03", MOVE, GenericDescription("someDesc", "someCall"),
-                                    null, null,"city04"),
-                            ActionModel("id04", MOVE, GenericDescription("someDesc", "someCall"),
-                                    null, null,"city05")))
+                            ActionModel("id01", MOVE, "someDesc",
+                                    null,null, GenericOutcome("Some description", "game.location=city02")),
+                            ActionModel("id02", MOVE, "someDesc",
+                                    null, null, GenericOutcome("Some description", "game.location=city03")),
+                            ActionModel("id03", MOVE, "someDesc",
+                                    null, null,GenericOutcome("Some description", "game.location=city04")),
+                            ActionModel("id04", MOVE, "someDesc",
+                                    null, null,GenericOutcome("Some description", "game.location=city05"))
+                    )
+            )
         }
 
         // Given

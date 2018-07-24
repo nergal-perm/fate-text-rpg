@@ -2,19 +2,14 @@ package ru.terekhov.fate.core.model
 
 import java.util.*
 
-data class GenericDescription(
-        val shortDesc: String,
-        val longDesc: String?
-)
-
 data class ConditionalDescription (
         val condition: String,
-        val description: GenericDescription
+        val description: String
 )
 
 data class LocationModel(
         val id: String,
-        val description: GenericDescription,
+        val description: String,
         val conditionalDescription: Array<ConditionalDescription>?,
         val actions: Array<ActionModel>
 
@@ -49,10 +44,10 @@ enum class ActionType {
 data class ActionModel(
         val id: String,
         val type: ActionType,
-        val description: GenericDescription,
+        val description: String,
         val condition: String?,
         val diceOutcome: DiceOutcome?,
-        val destination: String?
+        val outcome: GenericOutcome?
 )
 
 data class DiceOutcome (
@@ -69,6 +64,6 @@ data class Opposition (
 )
 
 data class GenericOutcome (
-        val description: GenericDescription,
+        val description: String?,
         val outcome: String
 )

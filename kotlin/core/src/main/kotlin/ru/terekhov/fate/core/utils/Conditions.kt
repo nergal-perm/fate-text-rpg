@@ -12,7 +12,8 @@ class ConditionEvaluator(private val gameState: GameStateRepository) {
         should always have 4 parts in it
     */
 
-    fun eval(condition: String): ConditionResult {
+    fun eval(condition: String?): ConditionResult {
+        if (condition == null) return ConditionResult("", true)
         val conditionParts: List<String> = condition.replace("!", "").split(".", " ")
         negative = condition.startsWith("!")
 
@@ -31,7 +32,6 @@ class ConditionEvaluator(private val gameState: GameStateRepository) {
             else -> false
         }
 
-
         return ConditionResult(condition, if (negative) !result else result)
     }
 }
@@ -40,3 +40,18 @@ data class ConditionResult(
         val condition: String,
         val result: Boolean
 )
+
+class OutcomeHandler(private val gameState: GameStateRepository) {
+    fun eval(outcomeExpr: String) {
+        val outcomes = outcomeExpr.split(" and ")
+        for (outcome in outcomes) {
+            val outcomeParts = outcome.replace(" ", "").split(".","=")
+            when (outcomeParts[0]) {
+                "game" -> gameState.setValue(outcomeParts[1], outcomeParts[2])
+                else -> {
+                    // do nothing yet
+                }
+            }
+        }
+    }
+}
