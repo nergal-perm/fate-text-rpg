@@ -41,7 +41,7 @@ data class ConditionResult(
         val result: Boolean
 )
 
-class OutcomeHandler(private val gameState: GameStateRepository) {
+class OutcomeEvaluator(private val gameState: GameStateRepository) {
     fun eval(outcomeExpr: String) {
         val outcomes = outcomeExpr.split(" and ")
         for (outcome in outcomes) {

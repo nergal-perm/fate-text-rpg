@@ -8,7 +8,7 @@ import ru.terekhov.fate.core.model.ActionModel
 import ru.terekhov.fate.core.model.LocationModel
 import ru.terekhov.fate.core.states.*
 import ru.terekhov.fate.core.utils.ConditionEvaluator
-import ru.terekhov.fate.core.utils.OutcomeHandler
+import ru.terekhov.fate.core.utils.OutcomeEvaluator
 
 class Game : ActionHandler {
 
@@ -19,10 +19,15 @@ class Game : ActionHandler {
     lateinit var charactersState: CharacterStateRepository
     lateinit var locationState: LocationStateRepository
     lateinit var currentLocation: LocationModel
-    lateinit var outcomeHandler: OutcomeHandler
+    lateinit var outcomeEvaluator: OutcomeEvaluator
     lateinit var conditionEvaluator: ConditionEvaluator
     private lateinit var listener: ActionResultListener
 
+
+    fun init() {
+        outcomeEvaluator = OutcomeEvaluator(gameState)
+        conditionEvaluator = ConditionEvaluator(gameState)
+    }
 
     fun loadLocation(locationId: String) {
         currentLocation = locations.loadLocation(locationId)
@@ -34,7 +39,7 @@ class Game : ActionHandler {
         var actionResult = ""
         if (action != null) {
             if (action.outcome != null) {
-                outcomeHandler.eval(action.outcome.outcome)
+                outcomeEvaluator.eval(action.outcome.outcome)
                 actionResult = action.outcome.description ?: ""
             }
             // Generate description

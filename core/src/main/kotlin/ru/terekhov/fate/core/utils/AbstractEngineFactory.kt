@@ -21,8 +21,8 @@ abstract class AbstractEngineFactory(
         game.locationState = locationStateRepository
         game.limboState = limboStateRepository
         game.charactersState = characterStateRepository
-        game.outcomeHandler = OutcomeHandler(gameStateRepository)
-        game.conditionEvaluator = ConditionEvaluator(gameStateRepository)
+
+        game.init()
         return game
     }
 }
